@@ -6,7 +6,7 @@ import RegisterScreen from './Screen/RegisterScreen'
 import MainScreen from './Screen/MainScreen'
 import axios from 'axios'
 
-axios.defaults.baseURL = 'http://mobileluat.southeastasia.cloudapp.azure.com:8080/mobile/public/api';
+axios.defaults.baseURL = 'https://octosyllabic-exhaus.000webhostapp.com/public/api';
 
 const AppNavigator = createStackNavigator({
   Login: LoginScreen,

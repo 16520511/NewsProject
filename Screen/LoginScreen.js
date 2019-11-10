@@ -3,8 +3,7 @@ import { ToastAndroid, View, Text, StyleSheet, Image, ImageBackground } from 're
 import { TextInput, Button  } from 'react-native-paper';
 import axios from 'axios'
 import AsyncStorage from '@react-native-community/async-storage';
-import { connect } from 'react-redux';
-import { logOut, logIn } from '../actions'
+import {connect} from "../store"
 
 class LoginScreen extends React.Component {
     constructor(props) {
@@ -15,10 +14,11 @@ class LoginScreen extends React.Component {
         }
     }
 
+
     async componentDidMount() {
         const token = await AsyncStorage.getItem('token');
         if(token !== null) {
-            // this.props.logIn();
+            this.props.actions.userLogIn();
             this.props.navigation.navigate('Main');
         }
     }
@@ -28,12 +28,12 @@ class LoginScreen extends React.Component {
             console.log(res);
             if(res.status == 200) {
                 await AsyncStorage.setItem('token', res.data.token);
-                // this.props.logIn();
+                this.props.actions.userLogIn();
                 this.props.navigation.navigate('Main');
             }
             else
                 ToastAndroid.show('Email hoặc mật khẩu không đúng.', ToastAndroid.SHORT);
-        }).catch(err => ToastAndroid.show('Email hoặc mật khẩu không đúng.', ToastAndroid.SHORT));
+        }).catch(err => console.log(err));
     }
 
     render() {
@@ -74,4 +74,4 @@ var styles = StyleSheet.create({
 })
 
 
-export default connect(null, { logIn} )(LoginScreen);
+export default connect(LoginScreen);

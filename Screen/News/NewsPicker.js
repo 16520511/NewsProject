@@ -42,13 +42,13 @@ class NewsPicker extends React.Component {
                         <Text style={styles.siteName}>VnExpress</Text>
                     </View>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.imageWrapper}>
+                <TouchableOpacity style={styles.imageWrapper} onPress={() => this.props.navigation.navigate('Category', {name: 'Huy'})}>
                     <View>
                         <Avatar.Image size={this.state.imageSize} source={require('../../assets/images/baomoi.jpg')} />
                         <Text style={styles.siteName}>Báo Mới</Text>
                     </View>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.imageWrapper}>
+                <TouchableOpacity style={styles.imageWrapper} onPress={() => this.props.navigation.navigate('Category', {name: 'Huy'})}>
                     <View>
                         <Avatar.Image size={this.state.imageSize} source={require('../../assets/images/afamily.jpg')} />
                         <Text style={styles.siteName}>AFamily</Text>

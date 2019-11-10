@@ -4,10 +4,11 @@ import NewsScreen from './NewsScreen'
 import UserScreen from './UserScreen'
 import axios from 'axios'
 import AsyncStorage from '@react-native-community/async-storage'
+import { connect } from '../store'
 
 const EmptyPlaceholder = () => <Text>Empty</Text>;
 
-export default class MainScreen extends React.Component {
+class MainScreen extends React.Component {
     async componentDidMount() {
         const token = await AsyncStorage.getItem("token");
         if (token === null)
@@ -19,10 +20,16 @@ export default class MainScreen extends React.Component {
                     await AsyncStorage.clear();
                     this.props.navigation.navigate("Login");
                 }
-                else if (res.status == 200)
+                else if (res.status == 200) {
                     await AsyncStorage.setItem("email", res.data.email);
+                    await AsyncStorage.setItem("name", res.data.name);
+                }
             }).catch(err => console.log(err));
         }
+    }
+
+    componentDidUpdate(prevProps) {
+        console.log(this.props.state);
     }
 
     state = {
@@ -44,6 +51,11 @@ export default class MainScreen extends React.Component {
         account: UserScreen
     });
 
+    componentDidUpdate(prevProps) {
+        if(!this.props.state.loggedIn)
+            this.props.navigation.navigate("Login");
+    }
+
     render() {
         return (
         <BottomNavigation
@@ -54,3 +66,5 @@ export default class MainScreen extends React.Component {
         );
     }
 }
+
+export default connect(MainScreen)

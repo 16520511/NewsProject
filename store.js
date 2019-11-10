@@ -1,7 +1,20 @@
-import { createStore } from 'redux'
-import thunk from 'redux-thunk'
-import reducer from './reducer'
+import React from "react";
+import useGlobalHook from "use-global-hook";
 
-const store = createStore(reducer);
+import * as actions from "./actions"
 
-export default store
+const initialState = {
+  loggedIn: 0
+};
+
+const useGlobal = useGlobalHook(React, initialState, actions);
+
+export const connect = Component => {
+    return props => {
+      let [state, actions] = useGlobal();
+      let _props = { ...props, state, actions };
+      return <Component {..._props} />;
+    };
+};
+
+export default useGlobal;

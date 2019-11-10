@@ -4,7 +4,8 @@ import * as React from 'react';
 import { ScrollView } from 'react-native';
 import { List } from 'react-native-paper';
 import ChangePassword from './User/ChangePassword'
-import AsyncStorage from '@react-native-community/async-storage';
+import UserInfo from './User/UserInfo'
+import Logout from './User/Logout'
 
 class UserScreen extends React.Component {
 
@@ -12,9 +13,8 @@ class UserScreen extends React.Component {
         title: 'CÁ NHÂN',
     };
 
-    _handleLogout = async () => {
-        // await AsyncStorage.clear();
-        console.log(this.props);
+    _handleLogout = () => {
+        this.props.navigation.navigate("Logout");
     }
 
     render() {
@@ -22,7 +22,7 @@ class UserScreen extends React.Component {
             <ScrollView>
                 <List.Section>
                     <List.Subheader>CÁ NHÂN</List.Subheader>
-                    <List.Item
+                    <List.Item onPress={() => this.props.navigation.navigate("UserInfo")}
                     title="Thông tin tài khoản" right={props => <List.Icon {...props} icon="chevron-right" />}
                     left={() => <List.Icon color="#000" icon="account-box" />}/>
                     <List.Item onPress={() => this.props.navigation.navigate("ChangePassword")}
@@ -51,10 +51,11 @@ class UserScreen extends React.Component {
 
 const UserNavigator = createStackNavigator({
   UserScreen: UserScreen,
-  ChangePassword: ChangePassword
+  ChangePassword: ChangePassword,
+  UserInfo: UserInfo,
+  Logout: Logout
 }, {
     defaultNavigationOptions: {
-        // headerTintColor: 'white',
         headerStyle: {
             backgroundColor: '#f7f7f7',
         },
