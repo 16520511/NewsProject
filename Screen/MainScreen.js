@@ -2,6 +2,7 @@ import * as React from 'react';
 import { BottomNavigation, Text } from 'react-native-paper';
 import NewsScreen from './NewsScreen'
 import UserScreen from './UserScreen'
+import UtilityScreen from './UtilityScreen'
 import axios from 'axios'
 import AsyncStorage from '@react-native-community/async-storage'
 import { connect } from '../store'
@@ -15,16 +16,14 @@ class MainScreen extends React.Component {
             this.props.navigation.navigate("Login");
         else {
             await axios.get('/user/info?token=' + token).then(async (res) => {
-                console.log(res);
-                if(res.status === 401) {
-                    await AsyncStorage.clear();
-                    this.props.navigation.navigate("Login");
-                }
-                else if (res.status == 200) {
+                if (res.status == 200) {
                     await AsyncStorage.setItem("email", res.data.email);
                     await AsyncStorage.setItem("name", res.data.name);
                 }
-            }).catch(err => console.log(err));
+            }).catch(async (err) => {
+                await AsyncStorage.clear();
+                this.props.navigation.navigate("Login");
+            });
         }
     }
 
@@ -47,7 +46,7 @@ class MainScreen extends React.Component {
     _renderScene = BottomNavigation.SceneMap({
         news: NewsScreen,
         video: EmptyPlaceholder,
-        utilities: EmptyPlaceholder,
+        utilities: UtilityScreen,
         account: UserScreen
     });
 

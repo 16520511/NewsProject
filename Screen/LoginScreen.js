@@ -24,6 +24,7 @@ class LoginScreen extends React.Component {
     }
 
     _handleLogin = async () => {
+        // this.props.navigation.navigate('Main');
         await axios.post('/login', this.state).then(async (res) => {
             console.log(res);
             if(res.status == 200) {

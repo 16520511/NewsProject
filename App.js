@@ -6,7 +6,7 @@ import RegisterScreen from './Screen/RegisterScreen'
 import MainScreen from './Screen/MainScreen'
 import axios from 'axios'
 
-axios.defaults.baseURL = 'https://octosyllabic-exhaus.000webhostapp.com/public/api';
+axios.defaults.baseURL = 'https://peaceful-headland-66002.herokuapp.com/api';
 
 const AppNavigator = createStackNavigator({
   Login: LoginScreen,

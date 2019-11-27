@@ -6,6 +6,8 @@ import { List } from 'react-native-paper';
 import ChangePassword from './User/ChangePassword'
 import UserInfo from './User/UserInfo'
 import Logout from './User/Logout'
+import LiveScore from './User/LiveScore'
+import History from './User/History'
 
 class UserScreen extends React.Component {
 
@@ -31,7 +33,7 @@ class UserScreen extends React.Component {
                     <List.Item
                     title="Tin đã đánh dấu" right={props => <List.Icon {...props} icon="chevron-right" />}
                     left={() => <List.Icon color="#000" icon="bookmark" />}/>
-                    <List.Item
+                    <List.Item onPress={() => this.props.navigation.navigate("History")}
                     title="Tin đọc gần đây" right={props => <List.Icon {...props} icon="chevron-right" />}
                     left={() => <List.Icon color="#000" icon="clock" />}/>
                     <List.Item onPress={this._handleLogout}
@@ -40,6 +42,9 @@ class UserScreen extends React.Component {
                 </List.Section>
                 <List.Section>
                     <List.Subheader>ỨNG DỤNG</List.Subheader>
+                    <List.Item title="Livescore" onPress={() => this.props.navigation.navigate("LiveScore")}
+                    right={props => <List.Icon {...props} icon="chevron-right" />}
+                    left={() => <List.Icon color="#000" icon="soccer" />}/>
                     <List.Item title="Điều khoản sử dụng" left={() => <List.Icon color="#000" icon="clipboard-check" />}/>
                     <List.Item title="Đánh giá ứng dụng" left={() => <List.Icon color="#000" icon="star" />}/>
                     <List.Item title="Góp ý" left={() => <List.Icon color="#000" icon="email" />}/>
@@ -53,7 +58,9 @@ const UserNavigator = createStackNavigator({
   UserScreen: UserScreen,
   ChangePassword: ChangePassword,
   UserInfo: UserInfo,
-  Logout: Logout
+  Logout: Logout,
+  LiveScore: LiveScore,
+  History: History
 }, {
     defaultNavigationOptions: {
         headerStyle: {

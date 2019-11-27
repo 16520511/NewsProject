@@ -1,52 +1,49 @@
 import * as React from 'react';
-import { StyleSheet, View, ScrollView } from 'react-native'
-import { Divider, Text } from 'react-native-paper';
+import { StyleSheet, View, ScrollView, TouchableOpacity } from 'react-native'
+import { Text } from 'react-native-paper';
 import { Avatar } from 'react-native-paper';
+import axios from 'axios'
+import AsyncStorage from '@react-native-community/async-storage';
+import { ActivityIndicator, Colors } from 'react-native-paper'
 
 class App extends React.Component {
+    state = {
+        articles: []
+    }
 
+    async componentDidMount() {
+        const token = await AsyncStorage.getItem("token");
+        if (token === null)
+            this.props.navigation.navigate("Login");
+        else {
+            await axios.get('/news?token=' + token + '&websiteId=' + this.props.websiteId + '&categoryId=' + this.props.categoryId).then(async (res) => {
+                if (res.status == 200) {
+                    console.log(res.data);
+                    this.setState({articles: res.data.data});
+                }
+            }).catch(async (err) => {
+                await AsyncStorage.clear();
+                this.props.navigation.navigate("Login");
+            });
+        }
+    }
     render() {
+        const articles = this.state.articles.map(article => (
+            <TouchableOpacity onPress={() => this.props.goToArticleDetail(this.props.websiteTitle, article.id)}>
+                <View style={styles.itemList}>
+                    <View style={styles.rightStyle}>
+                        <Text numberOfLines={2} style={styles.title}>{article.title}</Text>
+                    </View>
+                    <Avatar.Image size={80} source={{uri: article.image}} />
+                </View>
+            </TouchableOpacity>
+        ))
+
+        const loader = this.state.articles.length == 0 ? <ActivityIndicator size='large' style={{ marginTop: 50 }} animating={true} color={Colors.red800} /> : null;
         return (
             <ScrollView>
-                <View style={styles.itemList}>
-                    <View style={styles.rightStyle}>
-                        <Text numberOfLines={2} style={styles.title}>Mourinho: 'Nhiều HLV dùng kiểm soát bóng để quảng bá hình ảnh'</Text>
-                        <Text>20 phút trước</Text>
-                    </View>
-                    <Avatar.Image size={80} source={require('../../assets/images/sport-05.jpg')} />
-                </View>
-                <View style={styles.itemList}>
-                    <View style={styles.rightStyle}>
-                        <Text numberOfLines={2} style={styles.title}>Ramsey xin lỗi vì 'cướp' bàn thắng của Ronaldo</Text>
-                        <Text>20 phút trước</Text>
-                    </View>
-                    <Avatar.Image size={80} source={require('../../assets/images/sport-04.jpg')} />
-                </View>
-                <View style={styles.itemList}>
-                    <View style={styles.rightStyle}>
-                        <Text numberOfLines={2} style={styles.title}>HLV Park tránh nói về cửa đi tiếp ở vòng loại World Cup 2022</Text>
-                        <Text>20 phút trước</Text>
-                    </View>
-                    <Avatar.Image size={80} source={require('../../assets/images/sport-01.jpg')} />
-                </View>
-                <Divider />
-                <Divider />
-                <View style={styles.itemList}>
-                    <View style={styles.rightStyle}>
-                        <Text numberOfLines={2} style={styles.title}>Ông Nguyễn Văn Vinh: 'Ông Park đã nâng tầm tư duy cầu thủ Việt Nam'</Text>
-                        <Text>1 tiếng trước</Text>
-                    </View>
-                    <Avatar.Image size={80} source={require('../../assets/images/sport-02.jpg')} />
-                </View>
-                <Divider />
-                <Divider />
-                <View style={styles.itemList}>
-                    <View style={styles.rightStyle}>
-                        <Text numberOfLines={2} style={styles.title}>Văn Hậu hé lộ lý do đến Hà Lan chơi bóng</Text>
-                        <Text>2 tiếng trước</Text>
-                    </View>
-                    <Avatar.Image size={80} source={require('../../assets/images/sport-03.jpg')} />
-                </View>
+                {loader}
+                {articles}
             </ScrollView>
         );
     }

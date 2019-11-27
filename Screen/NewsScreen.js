@@ -3,10 +3,12 @@ import { createStackNavigator } from 'react-navigation-stack';
 
 import NewsPicker from './News/NewsPicker'
 import Category from './News/Category'
+import ArticleDetail from './News/ArticleDetail'
 
 const NewsNavigator = createStackNavigator({
   NewsPicker: NewsPicker,
-  Category: Category
+  Category: Category,
+  ArticleDetail: ArticleDetail
 }, {
     defaultNavigationOptions: {
         headerStyle: {

@@ -36,10 +36,10 @@ class NewsPicker extends React.Component {
     render() {
         return (
             <View style={styles.grid}>
-                <TouchableOpacity onPress={() => this.props.navigation.navigate('Category', {name: 'Huy'})} onLayout={this.calculateImageSize} style={styles.imageWrapper}>
+                <TouchableOpacity onPress={() => this.props.navigation.navigate('Category', {websiteId: '2', websiteTitle: 'VietNamNet'})} onLayout={this.calculateImageSize} style={styles.imageWrapper}>
                     <View>
-                        <Avatar.Image size={this.state.imageSize} source={require('../../assets/images/vnexpress.jpg')} />
-                        <Text style={styles.siteName}>VnExpress</Text>
+                        <Avatar.Image size={this.state.imageSize} source={require('../../assets/images/vietnamnet.png')} />
+                        <Text style={styles.siteName}>VietNamNet</Text>
                     </View>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.imageWrapper} onPress={() => this.props.navigation.navigate('Category', {name: 'Huy'})}>
