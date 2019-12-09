@@ -2,7 +2,6 @@ import * as React from 'react';
 import { ScrollView, Image, View, Text, StyleSheet, Dimensions  } from 'react-native';
 import { Divider, IconButton, Appbar, Searchbar  } from 'react-native-paper';
 import axios from 'axios';
-import { WebView } from 'react-native-webview'
 import { connect } from '../store'
 import DefaultTheme from '../theme'
 import { TabView, SceneMap, TabBar  } from 'react-native-tab-view';
@@ -171,9 +170,9 @@ class UtilityScreen extends React.Component {
                     onSubmitEditing={this.requestWeather}
                     onIconPress={this.requestWeather}
                     value={this.state.locationQuery}/>
-                <View style={{flex: 1, margin: 10, marginVertical: 20, padding: 10, borderWidth: 1, borderColor: '#ccc', justifyContent: 'center', backgroundColor: frameBackgroundColor, borderRadius: 25}}>
+                <View style={{flex: 1, elevation: 4, margin: 10, marginVertical: 20, padding: 10, borderWidth: 1, borderColor: '#ccc', justifyContent: 'center', backgroundColor: frameBackgroundColor, borderRadius: 25}}>
                     <View style={{flex: 1, flexDirection: 'row', flexWrap: 'wrap', marginVertical: 10}}>
-                        <Text style={{color: textColor, fontSize: 30, textAlignVertical: 'center', flex:5}}>{this.state.locationQuery}</Text>
+                        <Text style={{color: textColor, margin: 10, fontSize: 30, textAlignVertical: 'center', flex:5}}>{this.state.locationQuery}</Text>
                         <IconButton style={{flex:1}}
                             icon="reload" color={textColor}
                             size={30}
