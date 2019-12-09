@@ -1,10 +1,13 @@
 import React from "react";
 import useGlobalHook from "use-global-hook";
+import DefaultTheme from './theme'
 
 import * as actions from "./actions"
 
 const initialState = {
-  loggedIn: 0
+    loggedIn: 0,
+    isDarkMode: false,
+    theme: DefaultTheme
 };
 
 const useGlobal = useGlobalHook(React, initialState, actions);

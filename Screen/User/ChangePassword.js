@@ -1,8 +1,10 @@
 import React from 'react';
-import { ToastAndroid, View, Text, StyleSheet, Image } from 'react-native';
-import { TextInput, Button, } from 'react-native-paper';
+import { ToastAndroid, View, StyleSheet, } from 'react-native';
+import { TextInput, Button, Appbar } from 'react-native-paper';
 import AsyncStorage from '@react-native-community/async-storage'
 import axios from 'axios'
+import DefaultTheme from '../../theme'
+import { connect } from '../../store'
 
 class ChangePassword extends React.Component {
     constructor(props) {
@@ -11,12 +13,19 @@ class ChangePassword extends React.Component {
             oldPassword: '',
             newPassword: '',
             newPassword2: '',
+            isDarkMode: false,
+            theme: DefaultTheme
         }
     }
 
-    static navigationOptions = {
-        title: 'Đổi mật khẩu',
-    };
+    async componentDidMount() {
+        this.setState({isDarkMode: this.props.state.isDarkMode, theme: this.props.state.theme});
+    }
+
+    componentDidUpdate(prevProps) {
+        if(this.props.state.isDarkMode != this.state.isDarkMode)
+            this.setState({isDarkMode: this.props.state.isDarkMode, theme: this.props.state.theme});
+    }
 
     _handleChangePassword = async () => {
         if (this.state.newPassword != this.state.newPassword2)
@@ -40,7 +49,14 @@ class ChangePassword extends React.Component {
 
     render() {
         return (
-            <View style={{paddingTop: 20}}>
+            <View style={{flex: 1, backgroundColor: this.state.theme.colors.background}}>
+                <Appbar.Header style={{backgroundColor: this.state.theme.colors.headerBarBg}}>
+                    <Appbar.BackAction onPress={() => this.props.navigation.goBack()} />
+                    <Appbar.Content
+                        title="Đổi mật khẩu" dark={false} titleStyle={{ fontWeight: '100' }}
+                    />
+                </Appbar.Header>
+                <View style={{marginBottom: 30}}></View>
                 <TextInput style={styles.input}
                     label='Mật khẩu cũ' mode='outlined' secureTextEntry={true}
                     value={this.state.oldPassword} onChangeText={text => this.setState({ oldPassword: text })}/>
@@ -50,7 +66,7 @@ class ChangePassword extends React.Component {
                 <TextInput style={styles.input}
                     label='Nhập lại mật khẩu mới' mode='outlined' secureTextEntry={true}
                     value={this.state.newPassword2} onChangeText={text => this.setState({ newPassword2: text })}/>
-                <Button onPress={this._handleChangePassword} dark={true} style={styles.changePasswordBtn} icon="lock-reset" mode="contained">
+                <Button theme={this.state.theme} onPress={this._handleChangePassword} dark={true} style={styles.changePasswordBtn} icon="lock-reset" mode="contained">
                     Đổi mật khẩu
                 </Button>
             </View>
@@ -63,4 +79,4 @@ var styles = StyleSheet.create({
     changePasswordBtn: { marginVertical: 15, marginHorizontal: 20, height: 55, justifyContent: 'center', borderWidth: 0, }
 })
 
-export default ChangePassword
+export default connect(ChangePassword)

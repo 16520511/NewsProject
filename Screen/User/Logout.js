@@ -10,10 +10,6 @@ class Logout extends React.Component {
         this.props.actions.userLogOut();
     }
 
-    static navigationOptions = {
-        title: 'Đăng xuất',
-    };
-
     render() {
         return (
             <View style={{flex: 1, justifyContent: 'center'}}>

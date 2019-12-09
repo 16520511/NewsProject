@@ -14,6 +14,8 @@ const NewsNavigator = createStackNavigator({
         headerStyle: {
             backgroundColor: '#f7f7f7',
         },
+        header: null,
+        headerMode: 'none'
     }
 });
 

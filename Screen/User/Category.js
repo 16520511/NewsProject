@@ -72,20 +72,18 @@ class Category extends React.Component {
     render() {
 
         return (
-        <View style={{flex: 1, backgroundColor: this.state.theme.colors.background}}>
+        <ScrollView style={{flex: 1, backgroundColor: this.state.theme.colors.background}}>
             <Appbar.Header style={{backgroundColor: this.state.theme.colors.headerBarBg}}>
                 <Appbar.BackAction onPress={() => this.props.navigation.goBack()} />
                 <Appbar.Content
                     title={this.props.navigation.getParam('websiteTitle', 'VietNamNet')} dark={false} titleStyle={{ fontWeight: '100' }}/>
             </Appbar.Header>
-            
             <TabView swipeEnabled={true}
                 navigationState={this.state} renderTabBar={this.renderTabBar}
                 renderScene={SceneMap(this.state.sceneMap)}
                 onIndexChange={index => this.setState({ index })}
                 initialLayout={{ width: Dimensions.get('window').width }}/>
-            
-        </View>
+        </ScrollView>
         );
     }
 }
