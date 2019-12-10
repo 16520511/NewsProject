@@ -3,6 +3,7 @@ import { BottomNavigation, Text, DefaultTheme } from 'react-native-paper';
 import NewsScreen from './NewsScreen'
 import UserScreen from './UserScreen'
 import UtilityScreen from './UtilityScreen'
+import VideoScreen from './VideoScreen'
 import axios from 'axios'
 import AsyncStorage from '@react-native-community/async-storage'
 import { connect } from '../store'
@@ -62,7 +63,7 @@ class MainScreen extends React.Component {
 
     _renderScene = BottomNavigation.SceneMap({
         news: NewsScreen,
-        video: EmptyPlaceholder,
+        video: VideoScreen,
         utilities: UtilityScreen,
         account: UserScreen
     });

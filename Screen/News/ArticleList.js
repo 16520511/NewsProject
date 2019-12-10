@@ -39,7 +39,7 @@ class ArticleList extends React.Component {
 
     render() {
         const articles = this.state.articles.map(article => (
-            <TouchableOpacity onPress={() => this.props.goToArticleDetail(this.props.websiteTitle, article.id)}>
+            <TouchableOpacity onPress={() => this.props.goToArticleDetail(this.props.websiteTitle, article.id, article.url)}>
                 <View style={styles.itemList}>
                     <View style={styles.rightStyle}>
                         <Text numberOfLines={2} style={{fontSize: 20, fontWeight: "bold", color: this.state.theme.colors.text}}>{article.title}</Text>

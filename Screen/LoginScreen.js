@@ -1,6 +1,6 @@
 import React from 'react';
-import { ToastAndroid, View, Text, StyleSheet, Image, ImageBackground } from 'react-native';
-import { TextInput, Button  } from 'react-native-paper';
+import { ToastAndroid, View, Text, StyleSheet, Image, ImageBackground, } from 'react-native';
+import { TextInput, Button, ActivityIndicator, Colors  } from 'react-native-paper';
 import axios from 'axios'
 import AsyncStorage from '@react-native-community/async-storage';
 import {connect} from "../store"
@@ -11,6 +11,7 @@ class LoginScreen extends React.Component {
         this.state = {
             email: '',
             password: '',
+            loading: false
         }
     }
 
@@ -25,6 +26,7 @@ class LoginScreen extends React.Component {
 
     _handleLogin = async () => {
         // this.props.navigation.navigate('Main');
+        await this.setState({loading: true});
         await axios.post('/login', this.state).then(async (res) => {
             console.log(res);
             if(res.status == 200) {
@@ -32,19 +34,23 @@ class LoginScreen extends React.Component {
                 this.props.actions.userLogIn();
                 this.props.navigation.navigate('Main');
             }
-            else
+            else {
                 ToastAndroid.show('Email hoặc mật khẩu không đúng.', ToastAndroid.SHORT);
-        }).catch(err => console.log(err));
+                await this.setState({loading: false});
+            }
+        }).catch(err => this.setState({loading: false}));
     }
 
     render() {
+        const loader = this.state.loading ? <View style={{position: 'absolute', top:0, left:0, right:0, bottom:0, justifyContent: 'center', alignItems: 'center'}}>
+            <ActivityIndicator size='large' animating={true} color={Colors.red800} />
+        </View> : null;
         return (
-            <ImageBackground source={require('../assets/images/background.jpg')} style={styles.screen}>
+            <ImageBackground source={require('../assets/images/background.jpg')} style={styles.screen}> 
                 <View style={styles.titleWrapper}>
                     <Image
                     style={{resizeMode: 'contain'}}
-                    source={require('../assets/images/logo.png')}
-                    />
+                    source={require('../assets/images/logo.png')}/>
                 </View>
                 <View style={styles.loginForm}>
                     <TextInput style={styles.input}
@@ -60,6 +66,7 @@ class LoginScreen extends React.Component {
                 <View style={styles.toSignUp}>
                     <Text style={{color: 'white'}} onPress={() => this.props.navigation.navigate('Register')}>Chưa có tài khoản? Đăng ký tại đây</Text>
                 </View>
+                {loader}
             </ImageBackground>
         );
     }
