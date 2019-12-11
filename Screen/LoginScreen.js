@@ -33,6 +33,7 @@ class LoginScreen extends React.Component {
                 await AsyncStorage.setItem('token', res.data.token);
                 this.props.actions.userLogIn();
                 this.props.navigation.navigate('Main');
+                await this.setState({loading: false});
             }
             else {
                 ToastAndroid.show('Email hoặc mật khẩu không đúng.', ToastAndroid.SHORT);
